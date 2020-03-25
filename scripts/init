@@ -22,6 +22,7 @@ if ! mount -t devtmpfs -o mode=0755 udev /dev; then
 	[ -e /dev/console ] || mknod -m 0600 /dev/console c 5 1
 	[ -e /dev/null ] || mknod /dev/null c 1 3
 fi
+
 mkdir /dev/pts
 mount -t devpts -o noexec,nosuid,gid=5,mode=0620 devpts /dev/pts || true
 mount -t tmpfs -o "noexec,nosuid,size=10%,mode=0755" tmpfs /run
@@ -131,6 +132,11 @@ done
 # export BOOT variable value for compcache,
 # so we know if we run from casper
 export BOOT
+
+
+# export ROOT variable value for Anchor SoM,
+# Anchor do not use ROOT from kernel commannd line
+ROOT=/dev/mmcblk0p3
 
 if [ "$recovery" == "y" ]; then
 	echo "Do recovery"
